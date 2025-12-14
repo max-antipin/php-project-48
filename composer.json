@@ -4,13 +4,19 @@
     "type": "library",
     "require-dev": {
         "squizlabs/php_codesniffer": "^4.0",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.5"
     },
     "license": "MIT",
     "autoload": {
         "files": [
             "src/Library.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Differ\\Differ\\Tests\\": "tests"
+        }
     },
     "authors": [
         {
