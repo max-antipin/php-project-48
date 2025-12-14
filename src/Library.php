@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace Differ\Differ;
 
+use Symfony\Component\Yaml\Yaml;
+
 function decodeFile(string $filename): array
 {
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $parser = match ($ext) {
+        'json' => static fn (string $contents): mixed => json_decode($contents, true),
+        'yaml', 'yml' => static fn (string $contents): mixed => Yaml::parse($contents),
+        default => throw new \RuntimeException("Unsupported file type '$ext'")
+    };
     $contents = file_get_contents($filename);
     if (false === $contents) {
         throw new \RuntimeException("Unable to open file '$filename'");
     }
-    $data = json_decode($contents, true);
+    $data = $parser($contents);
     if (!\is_array($data)) {
         throw new \RuntimeException("Invalid file format '$filename'");
     }

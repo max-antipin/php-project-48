@@ -12,9 +12,7 @@ use function Differ\Differ\genDiff;
 #[CoversFunction('Differ\Differ\genDiff')]
 class GetDiffTest extends TestCase
 {
-    public function testGetDiffJSON(): void
-    {
-        $resultDiff = <<<'DIFF'
+    private const string RESULT_DIFF = <<<'DIFF'
 {
   - follow: false
     host: hexlet.io
@@ -24,6 +22,20 @@ class GetDiffTest extends TestCase
   + verbose: true
 }
 DIFF;
-        $this->assertSame($resultDiff, genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json'));
+
+    public function testGetDiffJSON(): void
+    {
+        $this->assertSame(self::RESULT_DIFF, genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json'));
+    }
+
+    public function testGetDiffYAML(): void
+    {
+        $this->assertSame(self::RESULT_DIFF, genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml'));
+    }
+
+    public function testGetDiffInvalidType(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        genDiff('tests/fixtures/file1.xml', 'tests/fixtures/file2.xml');
     }
 }
