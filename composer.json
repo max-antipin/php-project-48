@@ -1,0 +1,28 @@
+{
+    "name": "hexlet/code",
+    "description": "Учебный проект Вычислитель отличий (Hexlet)",
+    "type": "library",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^4.0",
+        "phpstan/phpstan": "^2.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "files": [
+            "src/Library.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Max Antipin",
+            "email": "max.v.antipin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "docopt/docopt": "^1.0"
+    },
+    "bin": [
+        "bin/gendiff"
+    ]
+}
