@@ -22,5 +22,8 @@ Options:
 DOC;
 
 $args = Docopt::handle($doc, ['version' => 'Generate diff 1.0']);
-
-echo genDiff($args['<firstFile>'], $args['<secondFile>']);
+$filename1 = $args['<firstFile>'];
+$filename2 = $args['<secondFile>'];
+assert(is_string($filename1));
+assert(is_string($filename2));
+echo genDiff($filename1, $filename2);

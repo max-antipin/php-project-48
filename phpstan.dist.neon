@@ -5,3 +5,5 @@ parameters:
         - bin/gendiff
         - src
         - tests
+    ignoreErrors:
+        - identifier: missingType.iterableValue

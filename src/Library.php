@@ -6,7 +6,15 @@ namespace Differ\Differ;
 
 function decodeFile(string $filename): array
 {
-    return json_decode(file_get_contents($filename), true);
+    $contents = file_get_contents($filename);
+    if (false === $contents) {
+        throw new \RuntimeException("Unable to open file '$filename'");
+    }
+    $data = json_decode($contents, true);
+    if (!\is_array($data)) {
+        throw new \RuntimeException("Invalid file format '$filename'");
+    }
+    return $data;
 }
 
 function genDiff(string $filename1, string $filename2): string
