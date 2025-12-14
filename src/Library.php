@@ -15,7 +15,7 @@ function genDiff(string $filename1, string $filename2): string
             string $sign,
             string $key,
             string|int|float|bool $value
-        ): string => "$sign $key: " . var_export($value, true);
+        ): string => "$sign $key: " . (\is_string($value) ? $value : var_export($value, true));
     $file1 = decodeFile($filename1);
     $file2 = decodeFile($filename2);
     $allKeys = array_keys([...$file1, ...$file2]);
@@ -41,5 +41,6 @@ function genDiff(string $filename1, string $filename2): string
                 die('Impossible');
         }
     }
-    return '{' . PHP_EOL . implode(PHP_EOL, array_map(static fn (string $s): string => "  $s", $lines)) . PHP_EOL . '}';
+    $diff = implode("\n", array_map(static fn (string $s): string => "  $s", $lines));
+    return "{\n$diff\n}";
 }
