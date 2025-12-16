@@ -44,37 +44,43 @@ function calcDiff(object $data1, object $data2): array
         $item = match ((property_exists($data1, $key) ? 1 : 0) + (property_exists($data2, $key) ? 2 : 0)) {
             1 => ['-' => \is_object($data1->$key) ? calcDiff($data1->$key, $data1->$key) : $data1->$key],
             2 => ['+' => \is_object($data2->$key) ? calcDiff($data2->$key, $data2->$key) : $data2->$key],
-            3 => (function (object $data1, object $data2, string $key): array {
-                $leftObj = \is_object($data1->$key);
-                $rightObj = \is_object($data2->$key);
-                $bothObj = $leftObj && $rightObj;
-                if ($data1->$key === $data2->$key || $bothObj) {
-                    return [' ' => $bothObj ? calcDiff($data1->$key, $data2->$key) : $data1->$key];
-                }
-                return [
-                    '-' => $leftObj ? calcDiff($data1->$key, $rightObj ? $data2->$key : $data1->$key) : $data1->$key,
-                    '+' => $rightObj ? calcDiff($data2->$key, $leftObj ? $data1->$key : $data2->$key) : $data2->$key,
-                ];
-            })($data1, $data2, $key)
+            3 => calcDiffBetweenData($data1, $data2, $key)
         };
     });
     return $diff;
 }
 
+function calcDiffBetweenData(object $data1, object $data2, string $key): array
+{
+    $leftObj = \is_object($data1->$key);
+    $rightObj = \is_object($data2->$key);
+    $bothObj = $leftObj && $rightObj;
+    if ($data1->$key === $data2->$key || $bothObj) {
+        return [' ' => $bothObj ? calcDiff($data1->$key, $data2->$key) : $data1->$key];
+    }
+    return [
+        '-' => $leftObj ? calcDiff($data1->$key, $rightObj ? $data2->$key : $data1->$key) : $data1->$key,
+        '+' => $rightObj ? calcDiff($data2->$key, $leftObj ? $data1->$key : $data2->$key) : $data2->$key,
+    ];
+}
+
 function formatDiff(array $diff, int $level = 0): string
 {
-    $formatLine = static fn(
-            string $sign,
-            string $k,
-            null|string|int|float|bool $v
-        ): string => "$sign $k: " . (null === $v ? 'null' : (\is_string($v) ? $v : var_export($v, true)));
     $lines = [];
     foreach ($diff as $key => $d) {
         foreach ($d as $sign => $value) {
-            $lines[] = $formatLine($sign, $key, \is_array($value) ? formatDiff($value, $level + 1) : $value);
+            $lines[] = formatLine($sign, $key, \is_array($value) ? formatDiff($value, $level + 1) : $value);
         }
     }
     $offset = str_repeat(' ', 4 * $level);
     $s = implode("\n", array_map(static fn (string $s): string => "$offset  $s", $lines));
     return "{\n$s\n$offset}";
+}
+
+function formatLine(
+    string $sign,
+    string $k,
+    null|string|int|float|bool $v
+): string {
+    return "$sign $k: " . (null === $v ? 'null' : (\is_string($v) ? $v : var_export($v, true)));
 }
