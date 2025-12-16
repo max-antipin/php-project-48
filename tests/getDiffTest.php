@@ -74,4 +74,10 @@ DIFF;
         $this->expectException(\RuntimeException::class);
         genDiff('tests/fixtures/file1.xml', 'tests/fixtures/file2.xml');
     }
+
+    public function testGetDiffInvalidFormat(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json');
+    }
 }
