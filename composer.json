@@ -10,8 +10,14 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "src/Library.php"
-        ]
+            "src/Library.php",
+            "src/Formatters.php",
+            "src/Formatters/Plain.php",
+            "src/Formatters/Stylish.php"
+        ],
+        "psr-4": {
+            "Differ\\Differ\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {

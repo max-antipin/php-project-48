@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Differ\Differ;
 
+use Differ\Differ\Enum\Format;
 use Symfony\Component\Yaml\Yaml;
 
 function decodeFile(string $filename): object
@@ -25,12 +26,15 @@ function decodeFile(string $filename): object
     return $data;
 }
 
-function genDiff(string $filename1, string $filename2): string
+function genDiff(string $filename1, string $filename2, Format $format): string
 {
-    return formatDiff(
-        calcDiff(
-            decodeFile($filename1),
-            decodeFile($filename2),
+    return implode(
+        "\n",
+        getFormatter($format)(
+            calcDiff(
+                decodeFile($filename1),
+                decodeFile($filename2),
+            )
         )
     );
 }
@@ -62,25 +66,4 @@ function calcDiffBetweenData(object $data1, object $data2, string $key): array
         '-' => $leftObj ? calcDiff($data1->$key, $rightObj ? $data2->$key : $data1->$key) : $data1->$key,
         '+' => $rightObj ? calcDiff($data2->$key, $leftObj ? $data1->$key : $data2->$key) : $data2->$key,
     ];
-}
-
-function formatDiff(array $diff, int $level = 0): string
-{
-    $lines = [];
-    foreach ($diff as $key => $d) {
-        foreach ($d as $sign => $value) {
-            $lines[] = formatLine($sign, $key, \is_array($value) ? formatDiff($value, $level + 1) : $value);
-        }
-    }
-    $offset = str_repeat(' ', 4 * $level);
-    $s = implode("\n", array_map(static fn (string $s): string => "$offset  $s", $lines));
-    return "{\n$s\n$offset}";
-}
-
-function formatLine(
-    string $sign,
-    string $k,
-    null|string|int|float|bool $v
-): string {
-    return "$sign $k: " . (null === $v ? 'null' : (\is_string($v) ? $v : var_export($v, true)));
 }

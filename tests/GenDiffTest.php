@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Differ\Differ\Tests;
 
+use Differ\Differ\Enum\Format;
 use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\TestCase;
 
@@ -75,19 +76,25 @@ DIFF_PLAIN;
 
     public function testGetDiffJSON(): void
     {
-        $this->assertSame(self::RESULT_DIFF, genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json'));
+        $this->assertSame(
+            self::RESULT_DIFF,
+            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', Format::STYLISH)
+        );
     }
 
     public function testGetDiffYAML(): void
     {
-        $this->assertSame(self::RESULT_DIFF, genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml'));
+        $this->assertSame(
+            self::RESULT_DIFF,
+            genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml', Format::STYLISH)
+        );
     }
 
     public function testGetDiffPlainJSON(): void
     {
         $this->assertSame(
             self::RESULT_DIFF_PLAIN,
-            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json')
+            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', Format::PLAIN)
         );
     }
 
@@ -95,19 +102,19 @@ DIFF_PLAIN;
     {
         $this->assertSame(
             self::RESULT_DIFF_PLAIN,
-            genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml')
+            genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml', Format::PLAIN)
         );
     }
 
     public function testGetDiffInvalidType(): void
     {
         $this->expectException(\RuntimeException::class);
-        genDiff('tests/fixtures/file1.xml', 'tests/fixtures/file2.xml');
+        genDiff('tests/fixtures/file1.xml', 'tests/fixtures/file2.xml', Format::PLAIN);
     }
 
     public function testGetDiffInvalidFormat(): void
     {
         $this->expectException(\RuntimeException::class);
-        genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json');
+        genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json', Format::PLAIN);
     }
 }
