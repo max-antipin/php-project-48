@@ -22,6 +22,7 @@ function formatDiffPlain(array $diff): string
                 1 => 'removed',
                 2 => 'added with value: ' . formatValue($d['+']),
                 3 => 'updated. From ' . formatValue($d['-']) . ' to ' . formatValue($d['+']),
+                default => die('Impossible')
             };
         }
         return $lines;

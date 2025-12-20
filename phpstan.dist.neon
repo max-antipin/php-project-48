@@ -7,4 +7,3 @@ parameters:
         - tests
     ignoreErrors:
         - identifier: missingType.iterableValue
-        - identifier: match.unhandled

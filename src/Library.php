@@ -45,7 +45,8 @@ function calcDiff(object $data1, object $data2): array
         $item = match ((property_exists($data1, $key) ? 1 : 0) + (property_exists($data2, $key) ? 2 : 0)) {
             1 => ['-' => \is_object($data1->$key) ? calcDiff($data1->$key, $data1->$key) : $data1->$key],
             2 => ['+' => \is_object($data2->$key) ? calcDiff($data2->$key, $data2->$key) : $data2->$key],
-            3 => calcDiffBetweenData($data1, $data2, $key)
+            3 => calcDiffBetweenData($data1, $data2, $key),
+            default => die('Impossible')
         };
     });
     return $diff;
