@@ -120,8 +120,8 @@ DIFF_PLAIN;
 
     public function testGetDiffInvalidFormatName(): void
     {
-        $this->expectException(\RuntimeException::class);
-        genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json', 'format');
+        $this->expectException(\UnexpectedValueException::class);
+        genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', 'format');
     }
 
     public function testGetDiffJsonJson(): void
