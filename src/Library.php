@@ -26,7 +26,7 @@ function decodeFile(string $filename): object
     return $data;
 }
 
-function genDiff(string $filename1, string $filename2, Format $format): string
+function genDiff(string $filename1, string $filename2, string $format = Format::STYLISH->value): string
 {
     return getFormatter($format)(
         calcDiff(

@@ -78,7 +78,7 @@ DIFF_PLAIN;
     {
         $this->assertSame(
             self::RESULT_DIFF,
-            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', Format::STYLISH)
+            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json')
         );
     }
 
@@ -86,7 +86,7 @@ DIFF_PLAIN;
     {
         $this->assertSame(
             self::RESULT_DIFF,
-            genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml', Format::STYLISH)
+            genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml')
         );
     }
 
@@ -94,7 +94,7 @@ DIFF_PLAIN;
     {
         $this->assertSame(
             self::RESULT_DIFF_PLAIN,
-            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', Format::PLAIN)
+            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', 'plain')
         );
     }
 
@@ -102,26 +102,32 @@ DIFF_PLAIN;
     {
         $this->assertSame(
             self::RESULT_DIFF_PLAIN,
-            genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml', Format::PLAIN)
+            genDiff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yml', 'plain')
         );
     }
 
     public function testGetDiffInvalidType(): void
     {
         $this->expectException(\RuntimeException::class);
-        genDiff('tests/fixtures/file1.xml', 'tests/fixtures/file2.xml', Format::PLAIN);
+        genDiff('tests/fixtures/file1.xml', 'tests/fixtures/file2.xml');
     }
 
     public function testGetDiffInvalidFormat(): void
     {
         $this->expectException(\RuntimeException::class);
-        genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json', Format::PLAIN);
+        genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json');
+    }
+
+    public function testGetDiffInvalidFormatName(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json', 'format');
     }
 
     public function testGetDiffJsonJson(): void
     {
         $this->assertJson(
-            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', Format::JSON)
+            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', 'json')
         );
     }
 }
