@@ -117,4 +117,11 @@ DIFF_PLAIN;
         $this->expectException(\RuntimeException::class);
         genDiff('tests/fixtures/file-invalid.json', 'tests/fixtures/file2.json', Format::PLAIN);
     }
+
+    public function testGetDiffJsonJson(): void
+    {
+        $this->assertJson(
+            genDiff('tests/fixtures/file1.json', 'tests/fixtures/file2.json', Format::JSON)
+        );
+    }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Differ\Differ\Formatters;
 
-function formatDiffStylish(array $diff, int $level = 0): array
+function formatDiffStylish(array $diff, int $level = 0): string
 {
     $lines = [];
     foreach ($diff as $key => $d) {
@@ -12,12 +12,12 @@ function formatDiffStylish(array $diff, int $level = 0): array
             $lines[] = formatLineStylish(
                 $sign,
                 $key,
-                \is_array($value) ? implode("\n", formatDiffStylish($value, $level + 1)) : $value
+                \is_array($value) ? formatDiffStylish($value, $level + 1) : $value
             );
         }
     }
     $offset = str_repeat(' ', 4 * $level);
-    return ['{', ...array_map(static fn (string $s): string => "$offset  $s", $lines), "$offset}"];
+    return implode("\n", ['{', ...array_map(static fn (string $s): string => "$offset  $s", $lines), "$offset}"]);
 }
 
 function formatLineStylish(

@@ -11,5 +11,6 @@ function getFormatter(Format $format): callable
     return __NAMESPACE__ . '\\Formatters\\' . match ($format) {
         Format::STYLISH => 'formatDiffStylish',
         Format::PLAIN => 'formatDiffPlain',
+        Format::JSON => 'formatDiffJson',
     };
 }

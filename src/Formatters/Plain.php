@@ -4,26 +4,29 @@ declare(strict_types=1);
 
 namespace Differ\Differ\Formatters;
 
-function formatDiffPlain(array $diff, string ...$keys): array
+function formatDiffPlain(array $diff): string
 {
-    $lines = [];
-    foreach ($diff as $key => $d) {
-        if (\array_key_exists(' ', $d)) {
-            if (\is_array($d[' '])) {
-                array_push($lines, ...formatDiffPlain($d[' '], ...[...$keys, $key]));
+    $formatDiffPlain = function(array $diff, string ...$keys) use (&$formatDiffPlain): array {
+        $lines = [];
+        foreach ($diff as $key => $d) {
+            if (\array_key_exists(' ', $d)) {
+                if (\is_array($d[' '])) {
+                    array_push($lines, ...$formatDiffPlain($d[' '], ...[...$keys, $key]));
+                }
+                continue;
             }
-            continue;
+            $key = implode('.', [...$keys, $key]);
+            $lines[] = "Property '$key' was " . match (
+                (\array_key_exists('-', $d) ? 1 : 0) + (\array_key_exists('+', $d) ? 2 : 0)
+            ) {
+                1 => 'removed',
+                2 => 'added with value: ' . formatValue($d['+']),
+                3 => 'updated. From ' . formatValue($d['-']) . ' to ' . formatValue($d['+']),
+            };
         }
-        $key = implode('.', [...$keys, $key]);
-        $lines[] = "Property '$key' was " . match (
-            (\array_key_exists('-', $d) ? 1 : 0) + (\array_key_exists('+', $d) ? 2 : 0)
-        ) {
-            1 => 'removed',
-            2 => 'added with value: ' . formatValue($d['+']),
-            3 => 'updated. From ' . formatValue($d['-']) . ' to ' . formatValue($d['+']),
-        };
-    }
-    return $lines;
+        return $lines;
+    };
+    return implode("\n", $formatDiffPlain($diff));
 }
 
 function formatValue(null|string|int|float|bool|array $value): string

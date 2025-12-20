@@ -28,13 +28,10 @@ function decodeFile(string $filename): object
 
 function genDiff(string $filename1, string $filename2, Format $format): string
 {
-    return implode(
-        "\n",
-        getFormatter($format)(
-            calcDiff(
-                decodeFile($filename1),
-                decodeFile($filename2),
-            )
+    return getFormatter($format)(
+        calcDiff(
+            decodeFile($filename1),
+            decodeFile($filename2),
         )
     );
 }
