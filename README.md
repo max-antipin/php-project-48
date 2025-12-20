@@ -16,3 +16,7 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=max-antipin_php-project-48&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=max-antipin_php-project-48)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=max-antipin_php-project-48&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=max-antipin_php-project-48)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=max-antipin_php-project-48&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=max-antipin_php-project-48)
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/XzvL36i2PROWOQVHDeYWenxNr.svg)](https://asciinema.org/a/XzvL36i2PROWOQVHDeYWenxNr)
