@@ -6,7 +6,7 @@ namespace Differ\Differ\Formatters;
 
 function formatDiffPlain(array $diff): string
 {
-    $formatDiffPlain = function(array $diff, string ...$keys) use (&$formatDiffPlain): array {
+    $formatDiffPlain = function (array $diff, string ...$keys) use (&$formatDiffPlain): array {
         $lines = [];
         foreach ($diff as $key => $d) {
             if (\array_key_exists(' ', $d)) {

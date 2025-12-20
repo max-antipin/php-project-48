@@ -32,7 +32,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.3",
         "docopt/docopt": "^1.0",
         "symfony/yaml": "^8.0"
     },
