@@ -28,10 +28,10 @@ Options:
 DOC;
 
 $args = Docopt::handle($doc, ['version' => 'Generate diff 1.0']);
+/** @var string $filename1 */
 $filename1 = $args['<firstFile>'];
+/** @var string $filename2 */
 $filename2 = $args['<secondFile>'];
+/** @var string $format */
 $format = $args['--format'];
-if (!is_string($filename1) || !is_string($filename2) || !is_string($format)) {
-    throw new InvalidArgumentException('Invalid argument');
-}
 echo genDiff($filename1, $filename2, $format);
