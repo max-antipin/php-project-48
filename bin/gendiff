@@ -3,7 +3,13 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../vendor/autoload.php';
+foreach (['vendor', '../..'] as $i => $dir) {
+    $file = __DIR__ . "/../$dir/autoload.php";
+    if ($i || file_exists($file)) {
+        require_once $file;
+        break;
+    }
+}
 
 use function Differ\Differ\genDiff;
 
