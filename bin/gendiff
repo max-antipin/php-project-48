@@ -31,7 +31,7 @@ $args = Docopt::handle($doc, ['version' => 'Generate diff 1.0']);
 $filename1 = $args['<firstFile>'];
 $filename2 = $args['<secondFile>'];
 $format = $args['--format'];
-assert(is_string($filename1));
-assert(is_string($filename2));
-assert(is_string($format));
+if (!is_string($filename1) || !is_string($filename2) || !is_string($format)) {
+    throw new InvalidArgumentException('Invalid argument');
+}
 echo genDiff($filename1, $filename2, $format);
