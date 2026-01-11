@@ -1,5 +1,3 @@
-# Учебный проект Вычислитель отличий (Hexlet)
-
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/max-antipin/php-project-48/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/max-antipin/php-project-48/actions)
 
@@ -16,6 +14,26 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=max-antipin_php-project-48&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=max-antipin_php-project-48)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=max-antipin_php-project-48&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=max-antipin_php-project-48)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=max-antipin_php-project-48&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=max-antipin_php-project-48)
+
+# Учебный проект Вычислитель отличий (Hexlet)
+
+Программа сравнивает два конфигурационных файла в формате json или yaml/yml и выводит в разных форматах: stylish, plain или json.
+
+## Требования
+- PHP >= 8.3
+- Make
+- Git
+- Composer
+
+## Установка
+```shell
+make install
+```
+
+## Использование
+```shell
+./bin/gendiff -h
+```
 
 ## Demo
 
