@@ -7,31 +7,39 @@ namespace Differ\Differ;
 use Differ\Differ\Enum\Format;
 use Symfony\Component\Yaml\Yaml;
 
-function decodeFile(string $filename): object
+function getContentParser(string $filename): callable
 {
     $ext = pathinfo($filename, PATHINFO_EXTENSION);
-    $parser = match ($ext) {
-        'json' => static fn (string $contents): mixed => json_decode($contents, false),
-        'yaml', 'yml' => static fn (string $contents): mixed => Yaml::parse($contents, Yaml::PARSE_OBJECT_FOR_MAP),
+    $check = static function (mixed $data) use ($filename): object {
+        if (!\is_object($data)) {
+            throw new \RuntimeException("Invalid file format '$filename'");
+        }
+        return $data;
+    };
+    return match ($ext) {
+        'json' => static fn (string $s): object => $check(json_decode($s, false)),
+        'yaml', 'yml' => static fn (string $s): object => $check(Yaml::parse($s, Yaml::PARSE_OBJECT_FOR_MAP)),
         default => throw new \RuntimeException("Unsupported file type '$ext'")
     };
+}
+
+function readFile(string $filename): string
+{
     $contents = file_get_contents($filename);
     if (false === $contents) {
         throw new \RuntimeException("Unable to open file '$filename'");
     }
-    $data = $parser($contents);
-    if (!\is_object($data)) {
-        throw new \RuntimeException("Invalid file format '$filename'");
-    }
-    return $data;
+    return $contents;
 }
 
 function genDiff(string $filename1, string $filename2, string $format = Format::STYLISH->value): string
 {
+    $parser1 = getContentParser($filename1);
+    $parser2 = getContentParser($filename2);
     return getFormatter($format)(
         calcDiff(
-            decodeFile($filename1),
-            decodeFile($filename2),
+            $parser1(readFile($filename1)),
+            $parser2(readFile($filename2)),
         )
     );
 }
