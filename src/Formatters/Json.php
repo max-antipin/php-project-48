@@ -6,7 +6,5 @@ namespace Differ\Differ\Formatters;
 
 function formatDiffJson(array $diff): string
 {
-    $json = json_encode($diff);
-    assert(\is_string($json));
-    return $json;
+    return json_encode($diff, JSON_THROW_ON_ERROR);
 }
