@@ -20,8 +20,8 @@ function formatDiffPlain(array $diff): string
                 (\array_key_exists('-', $d) ? 1 : 0) + (\array_key_exists('+', $d) ? 2 : 0)
             ) {
                 1 => 'removed',
-                2 => 'added with value: ' . formatValue($d['+']),
-                3 => 'updated. From ' . formatValue($d['-']) . ' to ' . formatValue($d['+']),
+                2 => \sprintf('added with value: %s', formatValue($d['+'])),
+                3 => \sprintf('updated. From %s to %s', formatValue($d['-']), formatValue($d['+'])),
                 default => die('Impossible')
             };
         }
