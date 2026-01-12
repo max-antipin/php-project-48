@@ -17,7 +17,6 @@ use function Differ\Differ\genDiff;
 #[CoversFunction('Differ\Differ\calcDiff')]
 #[CoversFunction('Differ\Differ\calcDiffBetweenData')]
 #[CoversFunction('Differ\Differ\getFormatter')]
-#[CoversFunction('Differ\Differ\sortBy')]
 #[CoversFunction('Differ\Differ\Formatters\formatDiffPlain')]
 #[CoversFunction('Differ\Differ\Formatters\formatValue')]
 #[CoversFunction('Differ\Differ\Formatters\formatDiffStylish')]
