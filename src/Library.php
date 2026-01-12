@@ -49,16 +49,16 @@ function calcDiff(object $data1, object $data2): array
     $allKeys = sortBy(
         array_keys([...get_object_vars($data1), ...get_object_vars($data2)]),
     );
-    $diff = array_fill_keys($allKeys, []);
-    array_walk($diff, static function (array &$item, string $key) use ($data1, $data2): void {
-        $item = match ((property_exists($data1, $key) ? 1 : 0) + (property_exists($data2, $key) ? 2 : 0)) {
-            1 => ['-' => \is_object($data1->$key) ? calcDiff($data1->$key, $data1->$key) : $data1->$key],
-            2 => ['+' => \is_object($data2->$key) ? calcDiff($data2->$key, $data2->$key) : $data2->$key],
-            3 => calcDiffBetweenData($data1, $data2, $key),
-            default => die('Impossible')
-        };
-    });
-    return $diff;
+    return array_map(
+        static fn (string $key): array =>
+            match ((property_exists($data1, $key) ? 1 : 0) + (property_exists($data2, $key) ? 2 : 0)) {
+                1 => ['-' => \is_object($data1->$key) ? calcDiff($data1->$key, $data1->$key) : $data1->$key],
+                2 => ['+' => \is_object($data2->$key) ? calcDiff($data2->$key, $data2->$key) : $data2->$key],
+                3 => calcDiffBetweenData($data1, $data2, $key),
+                default => die('Impossible')
+            },
+        array_combine($allKeys, $allKeys)
+    );
 }
 
 function calcDiffBetweenData(object $data1, object $data2, string $key): array
