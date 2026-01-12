@@ -46,8 +46,9 @@ function genDiff(string $filename1, string $filename2, string $format = Format::
 
 function calcDiff(object $data1, object $data2): array
 {
-    $allKeys = array_keys([...get_object_vars($data1), ...get_object_vars($data2)]);
-    sort($allKeys, SORT_STRING);
+    $allKeys = sortBy(
+        array_keys([...get_object_vars($data1), ...get_object_vars($data2)]),
+    );
     $diff = array_fill_keys($allKeys, []);
     array_walk($diff, static function (array &$item, string $key) use ($data1, $data2): void {
         $item = match ((property_exists($data1, $key) ? 1 : 0) + (property_exists($data2, $key) ? 2 : 0)) {
@@ -72,4 +73,10 @@ function calcDiffBetweenData(object $data1, object $data2, string $key): array
         '-' => $leftObj ? calcDiff($data1->$key, $rightObj ? $data2->$key : $data1->$key) : $data1->$key,
         '+' => $rightObj ? calcDiff($data2->$key, $leftObj ? $data1->$key : $data2->$key) : $data2->$key,
     ];
+}
+
+function sortBy(array $array): array
+{
+    sort($array, SORT_STRING);
+    return $array;
 }
