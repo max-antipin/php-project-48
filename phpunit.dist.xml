@@ -18,6 +18,8 @@
     displayDetailsOnTestsThatTriggerWarnings="true"
     displayDetailsOnPhpunitDeprecations="true"
     defaultTestSuite="unit"
+    requireCoverageMetadata="true"
+    beStrictAboutCoverageMetadata="true"
     >
   <source>
     <include>

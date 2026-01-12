@@ -11,6 +11,17 @@ use PHPUnit\Framework\TestCase;
 use function Differ\Differ\genDiff;
 
 #[CoversFunction('Differ\Differ\genDiff')]
+#[CoversFunction('Differ\Differ\readFile')]
+#[CoversFunction('Differ\Differ\getContentParser')]
+#[CoversFunction('Differ\Differ\Formatters\formatDiffJson')]
+#[CoversFunction('Differ\Differ\calcDiff')]
+#[CoversFunction('Differ\Differ\calcDiffBetweenData')]
+#[CoversFunction('Differ\Differ\getFormatter')]
+#[CoversFunction('Differ\Differ\sortBy')]
+#[CoversFunction('Differ\Differ\Formatters\formatDiffPlain')]
+#[CoversFunction('Differ\Differ\Formatters\formatValue')]
+#[CoversFunction('Differ\Differ\Formatters\formatDiffStylish')]
+#[CoversFunction('Differ\Differ\Formatters\formatLineStylish')]
 class GenDiffTest extends TestCase
 {
     public static function dataProviderGetDiff(): array
