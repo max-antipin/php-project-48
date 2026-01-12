@@ -6,6 +6,8 @@ namespace Differ\Differ;
 
 use Differ\Differ\Enum\Format;
 
+use function Funct\Collection\sortBy;
+
 function readFile(string $filename): string
 {
     $contents = file_get_contents($filename);
@@ -31,6 +33,7 @@ function calcDiff(object $data1, object $data2): array
 {
     $allKeys = sortBy(
         array_keys([...get_object_vars($data1), ...get_object_vars($data2)]),
+        static fn (string $v): string => $v,
     );
     return array_map(
         static fn (string $key): array =>
@@ -56,10 +59,4 @@ function calcDiffBetweenData(object $data1, object $data2, string $key): array
         '-' => $leftObj ? calcDiff($data1->$key, $rightObj ? $data2->$key : $data1->$key) : $data1->$key,
         '+' => $rightObj ? calcDiff($data2->$key, $leftObj ? $data1->$key : $data2->$key) : $data2->$key,
     ];
-}
-
-function sortBy(array $array): array
-{
-    sort($array, SORT_STRING);
-    return $array;
 }
